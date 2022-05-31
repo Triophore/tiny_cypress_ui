@@ -9,8 +9,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - tiny_cypress_ui',
-    title: 'tiny_cypress_ui',
+    titleTemplate: '%s - tinycypress',
+    title: 'tinycypress',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

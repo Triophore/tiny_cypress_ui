@@ -1,14 +1,20 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="12" md="12">
-      <v-card flat>
-        <v-card-title class="headline">
-          Projects
-        </v-card-title>
-        <v-card-text>
-          <v-toolbar
-                        flat
-                      >
+            <v-tabs
+            v-model="tab"
+            background-color="transparent"
+            >
+            <v-tab>
+              SPECS
+            </v-tab>
+            <v-tab>
+              REPORTS
+            </v-tab>
+            </v-tabs>
+            <v-tabs-items v-model="tab">
+            <v-tab-item>
+                          <v-toolbar flat>
                         <v-toolbar-title>PROJECTS</v-toolbar-title>
                         <v-divider
                           class="mx-4"
@@ -63,9 +69,20 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
-        </v-card-text>
+            </v-tab-item>
+            </v-tabs-items>
 
-      </v-card>
+
     </v-col>
   </v-row>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            tab : null
+        }
+    },
+}
+</script>

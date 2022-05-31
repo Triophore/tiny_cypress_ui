@@ -5,7 +5,6 @@
                 <v-card style="min-width:40vw;">
                     <v-card-title>Login</v-card-title>
                     <v-card-text>
-
                     <v-text-field
                         v-model="name"
                         label="Username"
