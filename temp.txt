@@ -1,0 +1,1 @@
+Notification for Patient ID %%|name^{"inputtype" : "text","maxlength" : "30"}%% at %%|param^{"inputtype" : "text","maxlength" : "30"}%% than %%|ward^{"inputtype" : "text","maxlength" : "30"}%% (%%|value^{"inputtype" : "text","maxlength" : "30"}%%) at %%|priority^{"inputtype" : "text","maxlength" : "30"}%% Lifesignals

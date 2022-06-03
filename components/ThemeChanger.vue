@@ -18,7 +18,7 @@
           >
         </v-list-item-content>
         <v-list-item-action
-          ><v-switch v-model="$vuetify.theme.dark" />
+          ><v-switch v-model="dark" @click="change_theme" />
         </v-list-item-action>
       </v-list-item>
       <v-divider />
@@ -84,6 +84,7 @@ export default {
   name: "ThemeChanger",
   data: () => ({
     menu: false,
+    dark : false,
     themes: [
       {
         name: "Theme 1",
@@ -150,7 +151,39 @@ export default {
       }
     ]
   }),
+  watch:{
+    dark(n,o){
+      
+      
+     
+    }
+  },
+  mounted() {
+    var t =  localStorage.getItem("dark_theme")
+    console.log(t)
+    if(t == "true"){
+       this.$vuetify.theme.dark = true
+       this.dark = true;
+       console.log("true dark")
+    }else{
+       this.$vuetify.theme.light = true
+       this.dark = false;
+       console.log("false dark")
+    }
+  },
   methods: {
+    change_theme(){
+     var n = this.dark;
+      if(n){
+      this.$vuetify.theme.dark = true;
+      console.log(n)
+      localStorage.setItem("dark_theme", "true");
+      }else{
+      this.$vuetify.theme.dark = false;
+      console.log(n)
+      localStorage.setItem("dark_theme", "false");
+      }
+    },
     setTheme(theme) {
       // close menu
       this.menu = false;
@@ -166,6 +199,7 @@ export default {
       });
       // also save theme name to disable selection
       this.$vuetify.theme.themes.name = name;
+      
     }
   }
 };

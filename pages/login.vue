@@ -2,7 +2,7 @@
     <div>
         <v-row >
             <v-col cols="12" align="center" justify="center">
-                <v-card style="min-width:40vw;">
+                <v-card style="min-width:40vw; margin-top:15%;">
                     <v-card-title>Login</v-card-title>
                     <v-card-text>
                     <v-text-field

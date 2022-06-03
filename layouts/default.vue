@@ -1,11 +1,12 @@
 <template>
-  <v-app dark>
+  <v-app dark >
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
       fixed
       app
+      
     >
       
 
@@ -71,6 +72,8 @@
       :clipped-left="clipped"
       fixed
       app
+      flat
+      dense
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
      
@@ -143,48 +146,48 @@ export default {
                 {
                     to: "/",
                     icon: "mdi-view-dashboard",
-                    text: "Home",
+                    text: "Dashboard",
                 },
-                {
-                    icon: "mdi-home",
-                    text: "Task List",
-                    to: "/list"
-                },
-                {
-                    icon: "mdi-account-tie",
-                    text: "Agents",
-                    subLinks: [
-                        {
-                            text: "View Agents",
-                            to: "/agents",
-                            icon: "mdi-view-list"
-                        },
-                        {
-                            text: "Add New Agent",
-                            to: "/agents/add",
-                            icon: "mdi-plus"
-                        },
-                    ]
-                },
+                // {
+                //     icon: "mdi-home",
+                //     text: "Task List",
+                //     to: "/list"
+                // },
+                // {
+                //     icon: "mdi-account-tie",
+                //     text: "Agents",
+                //     subLinks: [
+                //         {
+                //             text: "View Agents",
+                //             to: "/agents",
+                //             icon: "mdi-view-list"
+                //         },
+                //         {
+                //             text: "Add New Agent",
+                //             to: "/agents/add",
+                //             icon: "mdi-plus"
+                //         },
+                //     ]
+                // },
                 {
                     icon: "mdi-account-key",
-                    text: "Super Users",
+                    text: "Users",
                     subLinks: [
                         {
-                            text: "View Super Users",
-                            to: "/agents",
+                            text: "View All",
+                            to: "/users/",
                             icon: "mdi-view-list"
                         },
                         {
-                            text: "Add Super User",
-                            to: "/agents/add",
+                            text: "Add User",
+                            to: "/users/add",
                             icon: "mdi-plus"
                         },
-                        {
-                            text: "View System Monitor",
-                            to: "settings/superuser/status",
-                            icon: "mdi-bug"
-                        },
+                        // {
+                        //     text: "View System Monitor",
+                        //     to: "settings/superuser/status",
+                        //     icon: "mdi-bug"
+                        // },
                     ]
                 },
                 {
@@ -235,41 +238,41 @@ export default {
                     icon: "mdi-cogs",
                     text: "Settings",
                     subLinks: [
-                        {
-                            text: "Profile",
-                            to: "/settings/profile",
-                            icon: "mdi-account"
-                        },
+                        // {
+                        //     text: "Profile",
+                        //     to: "/settings/profile",
+                        //     icon: "mdi-account"
+                        // },
                         {
                             text: "Prefrence",
                             to: "/settings/prefrence",
                             icon: "mdi-adjust"
                         },
+                        // {
+                        //     text: "Manager",
+                        //     to: "/settings/manager",
+                        //     icon: "mdi-account-cog"
+                        // },
+                        // {
+                        //     text: "Templates",
+                        //     to: "/settings/templates",
+                        //     icon: "mdi-buffer"
+                        // },
+                        // {
+                        //     text: "Geo Fence",
+                        //     to: "/settings/geofence",
+                        //     icon: "mdi-map-legend"
+                        // },
                         {
-                            text: "Manager",
-                            to: "/settings/manager",
-                            icon: "mdi-account-cog"
-                        },
-                        {
-                            text: "Templates",
-                            to: "/settings/templates",
-                            icon: "mdi-buffer"
-                        },
-                        {
-                            text: "Geo Fence",
-                            to: "/settings/geofence",
-                            icon: "mdi-map-legend"
-                        },
-                        {
-                            text: "Teams",
-                            to: "/settings/teams",
+                            text: "MS Teams",
+                            to: "/settings/ms_teams",
                             icon: "mdi-account-multiple"
                         },
-                        {
-                            text: "Vehicle Types",
-                            to: "/settings/vehicle",
-                            icon: "mdi-car-connected"
-                        },
+                        // {
+                        //     text: "Vehicle Types",
+                        //     to: "/settings/vehicle",
+                        //     icon: "mdi-car-connected"
+                        // },
                         {
                             text: "Notifications",
                             to: "/settings/notifications",
@@ -285,11 +288,11 @@ export default {
                             to: "/settings/email",
                             icon: "mdi-email-newsletter"
                         },
-                        {
-                            text: "API",
-                            to: "/settings/api",
-                            icon: "mdi-api"
-                        },
+                        // {
+                        //     text: "API",
+                        //     to: "/settings/api",
+                        //     icon: "mdi-api"
+                        // },
                     ]
                 },
                 {
