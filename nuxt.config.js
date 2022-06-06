@@ -3,6 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  mode: 'spa',
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -43,6 +44,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
@@ -51,7 +53,34 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl : 'http://192.168.0.102:4500'
+    baseUrl : 'http://localhost:4500'
+  },
+
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/api/user/login', method: 'post', propertyName: 'token' },
+         // logout: false, //{ url: '/api/auth/logout', method: 'post' },
+          user: { url: '/api/user', method: 'get', propertyName: 'user' }
+        },
+       tokenType: '',
+      }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      //callback: '/',
+      redirect : true,
+      home: '/'
+    },
+    watchLoggedIn:true,
+    
+  },
+
+  router: {
+    middleware: ['auth']
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

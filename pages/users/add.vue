@@ -39,7 +39,7 @@
                     ></v-text-field>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn text>Create</v-btn>
+                        <v-btn text @click="add_user">Create</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -59,5 +59,18 @@ export default {
             email : ""
         }
     },
+    methods:{
+        async add_user(){
+            if(this.password === this.password1){
+               await this.$axios.post("/api/users/add",{
+                   username : this.name,
+                   email : this.email,
+                   password : this.password
+               }) 
+            }else{
+                alert("Password not match");
+            }
+        }
+    }
 }
 </script>

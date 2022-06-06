@@ -22,11 +22,11 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, index) in api_keys" :key="index">
-                        <td class="text-left">{{ item.name }}</td>
-                        <td class="text-left">{{ item.key }}</td>
+                      <tr v-for="(item, index) in sms_data" :key="index">
+                        <td class="text-left">{{ item.group }}</td>
+                        <td class="text-left">{{ item.phone_number}}</td>
                         <td class="text-right">
-                          <v-btn icon x-small @click="remove_key(index)">
+                          <v-btn icon x-small @click="remove_sms(index)">
                             <v-icon>mdi-trash-can</v-icon>
                           </v-btn>
                         </td>
@@ -40,7 +40,10 @@
                     <v-col cols="4">
                       <v-select
                         label="Group Name"
-                        v-model="add_key_name"
+                        v-model="group_selected"
+                        :items="sms_groups"
+                        :item-text="'group'"
+                        :item-value="'group'"
                       ></v-select>
                     </v-col>
                     <v-col cols="8">
@@ -71,10 +74,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, index) in api_keys" :key="index">
-                        <td class="text-left">{{ item.name }}</td>
+                      <tr v-for="(item, index) in sms_groups" :key="index">
+                        <td class="text-left">{{ item.group }}</td>
                         <td class="text-right">
-                          <v-btn icon x-small @click="remove_key(index)">
+                          <v-btn icon x-small @click="remove_group(index)">
                             <v-icon>mdi-trash-can</v-icon>
                           </v-btn>
                         </td>
@@ -88,13 +91,13 @@
                     <v-col cols="4">
                       <v-text-field
                         label="Group Name"
-                        v-model="add_key_name"
+                        v-model="add_group"
                       ></v-text-field>
                     </v-col>
                   </v-row>
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn color="green" class="white--text" @click="add_api">
+                  <v-btn color="green" class="white--text" @click="add_groupm">
                     Add Group
                   </v-btn>
                 </v-card-actions>
@@ -114,6 +117,8 @@ export default {
     return {
       add_key_name: "",
       add_key_value: "",
+      add_group : "",
+      group_selected : "",
       sms_groups: [],
       sms_data:[],
       api_keys: [
@@ -136,31 +141,50 @@ export default {
   async mounted() {
     const apis = await this.$axios.get('/api/sms');
     const sms_groups = await this.$axios.get('/api/sms/groups');
-       console.log(apis.data);
-      this.sms_groups = sms_groups.data;
+    this.sms_data = apis.data;
+    this.sms_groups = sms_groups.data;
   },
   methods: {
-    async remove_key(id) {
+    async remove_group(id) {
       //this.api_keys.splice(id, 1);
       // var res = await this.$axios.post('/api/key/delete/'+ this.api_keys[id].api)
       // this.$toast.info("API Removed");
       // const apis = await this.$axios.get('/api/key/all');
       // this.api_keys = apis.data;
+
+      const res = await this.$axios.post('/api/sms/group/delete/',{_id:this.sms_groups[id]._id} );
+      this.sms_groups.splice(id, 1);
+
+    },
+    async remove_sms(id) {
+      //this.api_keys.splice(id, 1);
+      // var res = await this.$axios.post('/api/key/delete/'+ this.api_keys[id].api)
+      // this.$toast.info("API Removed");
+      // const apis = await this.$axios.get('/api/key/all');
+      // this.api_keys = apis.data;
+
+      const res = await this.$axios.post('/api/sms/delete',{_id:this.sms_data[id]._id} );
+      this.sms_data.splice(id, 1);
+
     },
     copy_api() {
       this.$toast.info("API Copied");
     },
+    async remove(index){
+
+    },
     async add_api() {
       const api = await this.$axios.post('/api/sms/add', {
-        group: this.add_key_name,
+        group: this.group_selected,
         phone_number: this.add_key_value,
       });
-      // if(api.data.status){
-      this.api_keys.push({ name: this.add_key_name, key: this.add_key_value });
-      // this.$toast.success("API Created");
-      // }else{
-      //   this.$toast.error("API Creation Error !");
-      // }
+      this.sms_data.push(api.data);
+    },
+    async add_groupm() {
+      const api = await this.$axios.post('/api/sms/group/add', {
+        group: this.add_group,
+      });
+      this.sms_groups.push(api.data);
     },
   },
 };

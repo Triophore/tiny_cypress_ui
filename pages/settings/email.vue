@@ -22,11 +22,11 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, index) in api_keys" :key="index">
-                        <td class="text-left">{{ item.name }}</td>
-                        <td class="text-left">{{ item.key }}</td>
+                      <tr v-for="(item, index) in email" :key="index">
+                        <td class="text-left">{{ item.group }}</td>
+                        <td class="text-left">{{ item.email }}</td>
                         <td class="text-right">
-                          <v-btn icon x-small @click="remove_key(index)">
+                          <v-btn icon x-small @click="remove_email(index)">
                             <v-icon>mdi-trash-can</v-icon>
                           </v-btn>
                         </td>
@@ -40,7 +40,10 @@
                     <v-col cols="4">
                       <v-select
                         label="Group Name"
-                        v-model="add_key_name"
+                        v-model="group_selected"
+                        :items="email_groups"
+                        :item-text="'group'"
+                        :item-value="'group'"
                       ></v-select>
                     </v-col>
                     <v-col cols="8">
@@ -71,10 +74,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, index) in api_keys" :key="index">
-                        <td class="text-left">{{ item.name }}</td>
+                      <tr v-for="(item, index) in email_groups" :key="index">
+                        <td class="text-left">{{ item.group }}</td>
                         <td class="text-right">
-                          <v-btn icon x-small @click="remove_key(index)">
+                          <v-btn icon x-small @click="remove_group(index)">
                             <v-icon>mdi-trash-can</v-icon>
                           </v-btn>
                         </td>
@@ -94,7 +97,7 @@
                   </v-row>
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn color="green" class="white--text" @click="add_api">
+                  <v-btn color="green" class="white--text" @click="add_groupm">
                     Add Group
                   </v-btn>
                 </v-card-actions>
@@ -114,6 +117,9 @@ export default {
     return {
       add_key_name: "",
       add_key_value: "",
+      email_groups:[],
+      group_selected: "",
+      email:[],
       api_keys: [
         /*
           {
@@ -135,26 +141,52 @@ export default {
     //   const apis = await this.$axios.get('/api/key/all');
     //   console.log(apis.data);
     //   this.api_keys = apis.data;
+    const apis = await this.$axios.get('/api/email');
+    const sms_groups = await this.$axios.get('/api/email/groups');
+    this.email = apis.data;
+    this.email_groups = sms_groups.data;
   },
   methods: {
-    async remove_key(id) {
+    async remove_group(id) {
       //this.api_keys.splice(id, 1);
       // var res = await this.$axios.post('/api/key/delete/'+ this.api_keys[id].api)
       // this.$toast.info("API Removed");
       // const apis = await this.$axios.get('/api/key/all');
       // this.api_keys = apis.data;
+
+      const res = await this.$axios.post('/api/email/group/delete/',{_id:this.email_groups[id]._id} );
+      this.email_groups.splice(id, 1);
+
+    },
+    async remove_email(id) {
+      //this.api_keys.splice(id, 1);
+      // var res = await this.$axios.post('/api/key/delete/'+ this.api_keys[id].api)
+      // this.$toast.info("API Removed");
+      // const apis = await this.$axios.get('/api/key/all');
+      // this.api_keys = apis.data;
+
+      const res = await this.$axios.post('/api/email/delete',{_id:this.email[id]._id} );
+      this.email.splice(id, 1);
+
     },
     copy_api() {
       this.$toast.info("API Copied");
     },
+    async remove(index){
+
+    },
     async add_api() {
-      // const api = await this.$axios.post('/api/key/');
-      // if(api.data.status){
-      this.api_keys.push({ name: this.add_key_name, key: this.add_key_value });
-      // this.$toast.success("API Created");
-      // }else{
-      //   this.$toast.error("API Creation Error !");
-      // }
+      const api = await this.$axios.post('/api/email/add', {
+        group: this.group_selected,
+        email: this.add_key_value,
+      });
+      this.email.push(api.data);
+    },
+    async add_groupm() {
+      const api = await this.$axios.post('/api/email/group/add', {
+        group: this.add_key_name,
+      });
+      this.email_groups.push(api.data);
     },
   },
 };

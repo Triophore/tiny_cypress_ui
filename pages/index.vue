@@ -81,6 +81,7 @@
                 <v-text-field
                   label="Project Name"
                   hide-details="auto"
+                  v-model="new_project_name"
                 ></v-text-field>
               </v-list-item-content>
             </v-list-item>
@@ -89,6 +90,7 @@
                 <v-text-field
                   label="Project ID"
                   hide-details="auto"
+                  v-model="new_project_id"
                 ></v-text-field>
               </v-list-item-content>
             </v-list-item>
@@ -101,20 +103,22 @@
                 <v-row>
                   <v-col>
                     <v-select
-                      :items="teams"
                       label="Microsoft Teams"
-                      item-text="team_name"
                       v-model="selected_teams"
+                      :items="all_teams"
+                      :item-text="'name'"
+                      :item-value="'name'"
                       clearable
                     >
                     </v-select>
                   </v-col>
                   <v-col>
                     <v-select
-                      :items="teams"
                       label="Slack"
-                      item-text="team_name"
-                      v-model="selected_teams"
+                      v-model="selected_slack"
+                      :items="all_slack"
+                      :item-text="'group'"
+                      :item-value="'group'"
                       clearable
                     >
                     </v-select>
@@ -127,20 +131,22 @@
                 <v-row>
                   <v-col>
                     <v-select
-                      :items="teams"
                       label="Email"
-                      item-text="team_name"
-                      v-model="selected_teams"
+                      v-model="selected_email"
+                      :items="all_email_groups"
+                      :item-text="'group'"
+                      :item-value="'group'"
                       clearable
                     >
                     </v-select>
                   </v-col>
                   <v-col>
                     <v-select
-                      :items="teams"
-                      label="SMS"
-                      item-text="team_name"
-                      v-model="selected_teams"
+                     label="SMS"
+                      v-model="selected_sms"
+                      :items="all_sms_groups"
+                      :item-text="'group'"
+                      :item-value="'group'"
                       clearable
                     >
                     </v-select>
@@ -197,10 +203,42 @@ export default {
   data() {
     return {
       new_project: false,
-      selected_teams: "",
-      selected_jira: "",
-      selected_slack: "",
+      new_project_name : "",
+      new_project_id : "",
+
+      all_teams:[],
+      all_sms_groups:[],
+      all_email_groups:[],
+      all_jira_groups:[],
+      all_slack_groups:[],
+
+
+      selected_jira:"",
+      selected_slack:"",
+      selected_email:"",
+      selected_sms:"",
+      selected_teams:"",
     };
+  },
+  async mounted(){
+    try {
+    var _all_teams = await this.$axios.get('/api/teams');
+    var _all_sms_groups = await this.$axios.get('/api/sms/groups');
+    var _all_email_groups = await this.$axios.get('/api/email/groups');
+
+    this.all_teams = _all_teams.data;
+    this.all_sms_groups = _all_sms_groups.data;
+    this.all_email_groups = _all_email_groups.data;
+
+  
+   
+
+    } catch (error) {
+      
+    }
+   
+    //this.all_jira_groups = await this.getJiraGroups();
+    //this.all_slack_groups = await this.getSlackGroups();
   },
   methods: {
     loadProject(){

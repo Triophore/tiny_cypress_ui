@@ -21,7 +21,7 @@
           ><v-switch v-model="dark" @click="change_theme" />
         </v-list-item-action>
       </v-list-item>
-      <v-divider />
+      
       <!-- <v-card-text>
         <v-card class="my-2"
           :disabled="$vuetify.theme.themes.name === theme.name"

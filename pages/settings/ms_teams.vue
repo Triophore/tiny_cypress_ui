@@ -28,7 +28,7 @@
                   :key="index"
                 >
                   <td class="text-left">{{ item.name }}</td>
-                  <td class="text-left">{{ item.key }}</td>
+                  <td class="text-left">{{ item.webhook }}</td>
                   <td class="text-right"><v-btn
                         icon
                         x-small
@@ -79,31 +79,20 @@
           add_key_name : "",
           add_key_value : "",
         api_keys: [
-          /*
-          {
-            name: 'Frozen Yogurt',
-          },
-          {
-            name: 'Ice cream sandwich',
-          },
-          {
-            name: 'Eclair',
-          },
-          {
-            name: 'Cupcake',
-          }*/
+          
         ],
       }
     },
     async mounted() {
-    //   const apis = await this.$axios.get('/api/key/all');
-    //   console.log(apis.data);
-    //   this.api_keys = apis.data;
+       const apis = await this.$axios.get('/api/teams');
+       console.log(apis.data);
+      this.api_keys = apis.data;
     },
     methods: {
      async remove_key(id){
-        //this.api_keys.splice(id, 1);
-        // var res = await this.$axios.post('/api/key/delete/'+ this.api_keys[id].api)
+        
+        var res = await this.$axios.post('/api/teams/delete',{_id : this.api_keys[id]._id})
+        this.api_keys.splice(id, 1);
         // this.$toast.info("API Removed");
         // const apis = await this.$axios.get('/api/key/all');
         // this.api_keys = apis.data;
@@ -112,9 +101,13 @@
         this.$toast.info("API Copied");
       },
       async add_api(){
-        // const api = await this.$axios.post('/api/key/');
+        const api = await this.$axios.post('/api/teams/add',{
+          name: this.add_key_name,
+          webhook: this.add_key_value,
+      
+        });
         // if(api.data.status){
-        this.api_keys.push({ 'name' : this.add_key_name , "key" : this.add_key_value });
+        this.api_keys.push(api.data);
         // this.$toast.success("API Created");
         // }else{
         //   this.$toast.error("API Creation Error !");

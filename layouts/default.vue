@@ -172,68 +172,69 @@ export default {
                 {
                     icon: "mdi-account-key",
                     text: "Users",
-                    subLinks: [
-                        {
-                            text: "View All",
-                            to: "/users/",
-                            icon: "mdi-view-list"
-                        },
-                        {
-                            text: "Add User",
-                            to: "/users/add",
-                            icon: "mdi-plus"
-                        },
-                        // {
-                        //     text: "View System Monitor",
-                        //     to: "settings/superuser/status",
-                        //     icon: "mdi-bug"
-                        // },
-                    ]
+                    to: "/users/",
+                    // subLinks: [
+                    //     {
+                    //         text: "View All",
+                    //         to: "/users/",
+                    //         icon: "mdi-view-list"
+                    //     },
+                    //     {
+                    //         text: "Add User",
+                    //         to: "/users/add",
+                    //         icon: "mdi-plus"
+                    //     },
+                    //     // {
+                    //     //     text: "View System Monitor",
+                    //     //     to: "settings/superuser/status",
+                    //     //     icon: "mdi-bug"
+                    //     // },
+                    // ]
                 },
-                {
-                    icon: "mdi-chart-bar",
-                    text: "Analytics",
-                    subLinks: [
-                        {
-                            text: "Task Analysis",
-                            to: "/analytics/task",
-                            icon: "mdi-view-list"
-                        },
-                        {
-                            text: "Real Time Analysis",
-                            to: "/apps",
-                            icon: "mdi-chart-multiple"
-                        },
-                        {
-                            text: "Perfomance",
-                            to: "/apps",
-                            icon: "mdi-chart-line-stacked"
-                        },
-                        {
-                            text: "Effeciency",
-                            to: "/apps",
-                            icon: "mdi-chart-pie"
-                        },
-                    ]
-                },
-                {
-                    icon: "mdi-file-chart",
-                    text: "Reports",
-                    to: "/reports"
-                    /*
-                    subLinks : [
-                        {
-                            text : 'View Applications',
-                            to    : '/apps',
-                            icon  : 'mdi-view-list'
-                        },
-                        {
-                            text : 'New Application',
-                            to    : '/apps',
-                            icon  : 'mdi-plus'
-                        },
-                    ]*/
-                },
+                // {
+                //     icon: "mdi-chart-bar",
+                //     text: "Analytics",
+                //     subLinks: [
+                //         {
+                //             text: "Task Analysis",
+                //             to: "/analytics/task",
+                //             icon: "mdi-view-list"
+                //         },
+                //         {
+                //             text: "Real Time Analysis",
+                //             to: "/apps",
+                //             icon: "mdi-chart-multiple"
+                //         },
+                //         {
+                //             text: "Perfomance",
+                //             to: "/apps",
+                //             icon: "mdi-chart-line-stacked"
+                //         },
+                //         {
+                //             text: "Effeciency",
+                //             to: "/apps",
+                //             icon: "mdi-chart-pie"
+                //         },
+                //     ]
+                // },
+                // {
+                //     icon: "mdi-file-chart",
+                //     text: "Reports",
+                //     to: "/reports"
+                //     /*
+                //     subLinks : [
+                //         {
+                //             text : 'View Applications',
+                //             to    : '/apps',
+                //             icon  : 'mdi-view-list'
+                //         },
+                //         {
+                //             text : 'New Application',
+                //             to    : '/apps',
+                //             icon  : 'mdi-plus'
+                //         },
+                //     ]*/
+                // },
                 {
                     icon: "mdi-cogs",
                     text: "Settings",
