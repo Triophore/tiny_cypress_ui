@@ -231,7 +231,9 @@ export default {
     this.all_email_groups = _all_email_groups.data;
 
   
-   
+  // this.$toast("My toast content", {
+  //   timeout: 2000
+  // })
 
     } catch (error) {
       
