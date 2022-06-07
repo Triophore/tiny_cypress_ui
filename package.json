@@ -10,23 +10,11 @@
   },
   "dependencies": {
     "@nuxt/content": "^1.14.0",
-    "@nuxtjs/auth-next": "5.0.0-1648802546.c9880dc",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.15.1",
-    "dom-to-image": "^2.6.0",
-    "hapi-auth-jwt2": "^10.2.0",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.1",
     "nuxt": "^2.15.7",
-    "prompt-sync": "^4.2.0",
-    "vue-lightbox-advanced": "^1.0.2",
-    "vue-pure-lightbox": "^3.2.0",
-    "vue-toastification": "^1.7.14",
-    "vue-video-player": "^5.0.2",
-    "vuetify": "^2.5.5",
-    "vuetify-datetime-picker": "^2.1.1",
-    "yargs": "^17.5.1"
+    "vuetify": "^2.5.5"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.12.1"

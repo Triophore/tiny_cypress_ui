@@ -10,7 +10,6 @@
       app
     >
       <span>&copy; {{ new Date().getFullYear() }}</span>
-      <v-spacer></v-spacer><ThemeChanger/>
     </v-footer>
     </v-app>
 </template>
