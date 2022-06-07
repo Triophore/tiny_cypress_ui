@@ -3,14 +3,15 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  mode: 'spa',
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - tiny_cypress_ui',
-    title: 'tiny_cypress_ui',
+    titleTemplate: '%s - tinycypress',
+    title: 'tinycypress',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -28,6 +29,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/vue_toastifictaion.js', ssr: false },
+    { src: '~/plugins/vue_date_time.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -43,6 +46,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
@@ -50,7 +54,36 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseUrl : 'http://localhost:4500'
+  },
+
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/api/user/login', method: 'post', propertyName: 'token' },
+         // logout: false, //{ url: '/api/auth/logout', method: 'post' },
+          user: { url: '/api/user', method: 'get', propertyName: 'user' }
+        },
+       tokenType: '',
+      }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      //callback: '/',
+      redirect : true,
+      home: '/'
+    },
+    watchLoggedIn:true,
+    
+  },
+
+  router: {
+    middleware: ['auth']
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -65,20 +98,20 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: false,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
-    }
+    // theme: {
+    //   dark: false,
+    //   themes: {
+    //     dark: {
+    //       primary: colors.blue.darken2,
+    //       accent: colors.grey.darken3,
+    //       secondary: colors.amber.darken3,
+    //       info: colors.teal.lighten1,
+    //       warning: colors.amber.base,
+    //       error: colors.deepOrange.accent4,
+    //       success: colors.green.accent3
+    //     }
+    //   }
+    // }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
