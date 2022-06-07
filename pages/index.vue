@@ -284,6 +284,34 @@ export default {
     auto_generate_project_id(){
       this.new_project_id = Math.random().toString(36).slice(2);
     },
+    async create_project(){
+      try {
+        var _data = {
+          name: this.new_project_name,
+          id: this.new_project_id,
+          //jira_group: this.selected_jira,
+          //slack_group: this.selected_slack,
+          project_email: this.selected_email,
+          project_sms: this.selected_sms,
+          project_teams: this.selected_teams,
+          project_start: this.checkbox_project_start,
+          project_end: this.checkbox_project_end,
+          spec_start: this.checkbox_spec_start,
+          spec_stop: this.checkbox_spec_stop,
+        }
+        var _res = await this.$axios.post('/api/projects/add', _data);
+        this.clear_project_form();
+        this.new_project = false;
+        this.$toast("Project Created", {
+          timeout: 2000
+        })
+      } catch (error) {
+        this.$toast(error.response.data.message, {
+          timeout: 2000
+        })
+      }
+    },
+    },
     loadProject(){
 
     }
