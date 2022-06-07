@@ -58,10 +58,14 @@ export default {
         let username = this.name;
         let password = this.password;
         let response = await this.$auth.loginWith('local',  { data:{ username, password    } })
-        console.log(response)
-       if(this.$auth.loggedIn == true){
-        this.$router.push('/')
-      }
+        console.log(this.$route.query)
+        if(this.$auth.loggedIn == true){
+         if(this.$route.query.redirect){
+          this.$router.push(this.$route.query.redirect);
+          }else{
+            this.$router.push('/')
+          }
+        }
         
         } catch (err) {
           this.alert = true;

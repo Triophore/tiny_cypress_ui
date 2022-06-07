@@ -9,6 +9,7 @@
         <v-tab-item>
           <v-toolbar
             flat
+            style="padding-top: 20px; margin-bottom: 15px;"
           >
             <v-toolbar-title>USERS</v-toolbar-title>
             <v-divider
@@ -22,10 +23,17 @@
             <v-spacer></v-spacer>
             
             <v-spacer></v-spacer>
-               <v-datetime-picker  style="margin:100px !important;" label="Select Datetime" v-model="datetime"> </v-datetime-picker>
+              <v-datetime-picker  style="margin-top:100px !important; height:100px;" label="Select Datetime" v-model="datetime">
+                <template v-slot:dateIcon>
+                  <v-icon>mdi-calendar</v-icon>
+                </template>
+                <template v-slot:timeIcon>
+                  <v-icon>mdi-clock</v-icon>
+                </template>
+              </v-datetime-picker>
             
             </v-toolbar>
-          <v-expansion-panels>
+          <v-expansion-panels flat>
             <v-expansion-panel v-for="(item, i) in 5" :key="i">
               <v-expansion-panel-header>
                 <strong>Project name:</strong>

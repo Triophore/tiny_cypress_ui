@@ -6,7 +6,7 @@
       :clipped="clipped"
       fixed
       app
-      
+      class="no-print"
     >
       
 
@@ -74,6 +74,7 @@
       app
       flat
       dense
+        class="no-print"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
      
@@ -112,6 +113,7 @@
     <v-footer
       :absolute="!fixed"
       app
+      class="no-print"
     >
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -217,24 +219,24 @@ export default {
                 //         },
                 //     ]
                 // },
-                // {
-                //     icon: "mdi-file-chart",
-                //     text: "Reports",
-                //     to: "/reports"
-                //     /*
-                //     subLinks : [
-                //         {
-                //             text : 'View Applications',
-                //             to    : '/apps',
-                //             icon  : 'mdi-view-list'
-                //         },
-                //         {
-                //             text : 'New Application',
-                //             to    : '/apps',
-                //             icon  : 'mdi-plus'
-                //         },
-                //     ]*/
-                // },
+                {
+                    icon: "mdi-file-chart",
+                    text: "Report",
+                    to: "/report"
+                    /*
+                    subLinks : [
+                        {
+                            text : 'View Applications',
+                            to    : '/apps',
+                            icon  : 'mdi-view-list'
+                        },
+                        {
+                            text : 'New Application',
+                            to    : '/apps',
+                            icon  : 'mdi-plus'
+                        },
+                    ]*/
+                },
                 {
                     icon: "mdi-cogs",
                     text: "Settings",
@@ -244,11 +246,11 @@ export default {
                         //     to: "/settings/profile",
                         //     icon: "mdi-account"
                         // },
-                        {
-                            text: "Prefrence",
-                            to: "/settings/prefrence",
-                            icon: "mdi-adjust"
-                        },
+                        // {
+                        //     text: "Prefrence",
+                        //     to: "/settings/prefrence",
+                        //     icon: "mdi-adjust"
+                        // },
                         // {
                         //     text: "Manager",
                         //     to: "/settings/manager",
@@ -274,11 +276,11 @@ export default {
                         //     to: "/settings/vehicle",
                         //     icon: "mdi-car-connected"
                         // },
-                        {
-                            text: "Notifications",
-                            to: "/settings/notifications",
-                            icon: "mdi-bell-ring"
-                        },
+                        // {
+                        //     text: "Notifications",
+                        //     to: "/settings/notifications",
+                        //     icon: "mdi-bell-ring"
+                        // },
                         {
                             text: "SMS",
                             to: "/settings/sms",
@@ -307,3 +309,11 @@ export default {
     components: { ThemeChanger }
 }
 </script>
+
+<style scoped>
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+</style>

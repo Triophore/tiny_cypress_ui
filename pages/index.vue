@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="12" md="12">
-      <v-toolbar flat>
+      <v-toolbar >
         <v-toolbar-title>PROJECTS</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-btn text @click="new_project = true">CREATE PROJECT</v-btn>
@@ -38,13 +38,18 @@
           hide-details
         ></v-text-field>
       </v-toolbar>
-      <v-expansion-panels>
+      <v-expansion-panels style="margin-top:15px;">
         <v-expansion-panel v-for="(item, i) in 5" :key="i">
           <v-expansion-panel-header>
               <strong>Project name:</strong>
-              <v-btn text style="margin-right:30px;" :to="'/projects/hhskke'"  @click.native.stop="loadProject">View Details</v-btn>
+              <strong>Project ID:</strong>
+              <v-btn text style="margin-right:30px; width:15px;" x-small :to="'/projects/hhskke'"  @click.native.stop="loadProject">View Details</v-btn>
               <strong>Status:</strong>
-              Progress:<v-progress-linear value="15" label="Progress" style="width:10%;"></v-progress-linear>
+              <v-progress-linear value="15" height="25" label="Progress" style="margin-left:15px; width:10%;">
+                <template v-slot:default="{ value }">
+                  <strong>Progress :{{ Math.ceil(value) }}%</strong>
+                </template>
+              </v-progress-linear>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -93,6 +98,12 @@
                   v-model="new_project_id"
                 ></v-text-field>
               </v-list-item-content>
+              <v-list-item-action>
+                <v-btn text @click="auto_generate_project_id">
+                  Auto Generate
+                  <!-- <v-icon color="grey lighten-1">mdi-information</v-icon> -->
+                </v-btn>
+              </v-list-item-action>
             </v-list-item>
           </v-list>
           <v-divider></v-divider>
@@ -163,25 +174,25 @@
                 <v-row>
                   <v-col>
                     <v-checkbox
-                      v-model="checkbox"
+                      v-model="checkbox_project_start"
                       label="Project Start"
                     ></v-checkbox>
                   </v-col>
                   <v-col>
                     <v-checkbox
-                      v-model="checkbox"
+                      v-model="checkbox_project_end"
                       label="Project End"
                     ></v-checkbox>
                   </v-col>
                   <v-col>
                     <v-checkbox
-                      v-model="checkbox"
+                      v-model="checkbox_spec_start"
                       label="Spec Start"
                     ></v-checkbox>
                   </v-col>
                   <v-col>
                     <v-checkbox
-                      v-model="checkbox"
+                      v-model="checkbox_spec_stop"
                       label="Spec Stop"
                     ></v-checkbox>
                   </v-col>
@@ -218,9 +229,16 @@ export default {
       selected_email:"",
       selected_sms:"",
       selected_teams:"",
+
+      checkbox_project_start:false,
+      checkbox_project_end:false,
+      checkbox_spec_start:false,
+      checkbox_spec_stop:false,
     };
   },
   async mounted(){
+
+    
     try {
     var _all_teams = await this.$axios.get('/api/teams');
     var _all_sms_groups = await this.$axios.get('/api/sms/groups');
@@ -242,7 +260,30 @@ export default {
     //this.all_jira_groups = await this.getJiraGroups();
     //this.all_slack_groups = await this.getSlackGroups();
   },
+  watch: {
+    new_project(n,o){
+      if(n == false){
+        
+      }
+    }
+  },
   methods: {
+    clear_project_form(){
+      this.new_project_name = "";
+      this.new_project_id = "";
+      this.selected_jira = "";
+      this.selected_slack = "";
+      this.selected_email = "";
+      this.selected_sms = "";
+      this.selected_teams = "";
+      this.checkbox_project_start = false;
+      this.checkbox_project_end = false;
+      this.checkbox_spec_start = false;
+      this.checkbox_spec_stop = false;
+    },
+    auto_generate_project_id(){
+      this.new_project_id = Math.random().toString(36).slice(2);
+    },
     loadProject(){
 
     }
