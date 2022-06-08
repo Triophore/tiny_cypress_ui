@@ -210,6 +210,8 @@
 </template>
 
 <script>
+// import SocketIO from 'socket.io-client';
+// import {socket_io_url} from '../socket';
 export default {
   data() {
     return {
@@ -235,12 +237,18 @@ export default {
       checkbox_spec_start:false,
       checkbox_spec_stop:false,
 
-      all_projects:[]
+      all_projects:[],
+
+      //socket_io:null,
     };
   },
   async mounted(){
 
-    
+    // this.socket_io = SocketIO(socket_io_url);
+    // console.log(socket_io_url)
+    // this.socket_io.on("connect", () => {
+    //   console.log(this.socket_io.id); // "G5p5..."
+    // });
     try {
     var _all_teams = await this.$axios.get('/api/teams');
     var _all_sms_groups = await this.$axios.get('/api/sms/groups');
