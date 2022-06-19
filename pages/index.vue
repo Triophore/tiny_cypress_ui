@@ -1,34 +1,12 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="12" md="12">
-      <v-toolbar >
+      <!--v-toolbar >
         <v-toolbar-title>PROJECTS</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-btn text @click="new_project = true">CREATE PROJECT</v-btn>
         <v-spacer></v-spacer>
-        <!-- <v-select
-                        :items="teams"
-                        label="Select Teams"
-                        item-text="team_name"
-                        v-model="team_selected"
-                        dense
-                        > 
-                        </v-select>
-                        <v-btn v-if="team_selected != ''" icon @click="team_selected = '' ">
-                          <v-icon>mdi-close-circle</v-icon>
-                        </v-btn> -->
-        <!-- <v-spacer></v-spacer>
-                        <v-select
-                        :items="vehicle_types"
-                        item-text="vehicle_type"
-                        label="Select Vehicle Type"
-                        v-model="vehicle_selected"
-                        dense
-                        > 
-                        </v-select>
-                         <v-btn v-if="vehicle_selected != ''" icon @click="vehicle_selected = '' ">
-                          <v-icon>mdi-close-circle</v-icon>
-                        </v-btn> -->
+
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -37,28 +15,90 @@
           single-line
           hide-details
         ></v-text-field>
-      </v-toolbar>
-      <v-expansion-panels style="margin-top:15px;">
-        <v-expansion-panel v-for="(item, i) in all_projects" :key="i">
-          <v-expansion-panel-header>
-              <strong>Project name:{{item.project_name}}</strong>
-              <strong>Project ID:{{item.project_id}}</strong>
-              <v-btn text style="margin-right:30px; width:15px;" x-small :to="'/project/'+item._id"  @click.native.stop="loadProject">View Details</v-btn>
-              <strong>Status:</strong>
-              <v-progress-linear value="15" height="25" label="Progress" style="margin-left:15px; width:10%;">
-                <template v-slot:default="{ value }">
-                  <strong>Progress :{{ Math.ceil(value) }}%</strong>
-                </template>
-              </v-progress-linear>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      </v-toolbar-->
+
+
+       <v-data-table
+                        :headers="headers"
+                        :items="TableData"
+                        :options.sync="options"
+                        :server-items-length="totalCount"
+                        :loading="loading"
+                        :search="search"
+                        :pagination.sync="pagination"
+                        class="elevation-1"
+                        
+                        item-key="_id"
+                        
+                        disable-sort
+                        dense
+                      >
+
+
+                      <template v-slot:top>
+                      <v-toolbar
+                        flat
+                      >
+                        <v-toolbar-title>Projects</v-toolbar-title>
+                        <v-divider
+                          class="mx-4"
+                          inset
+                          vertical
+                        ></v-divider>
+                         <v-btn text @click="new_project = true">CREATE PROJECT</v-btn>
+                        <v-spacer></v-spacer>
+
+                        <v-spacer></v-spacer>
+
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Search"
+                        single-line
+                        hide-details
+                      ></v-text-field>
+                       
+                        </v-toolbar>
+                        </template>
+                        <!--@click.native.stop="loadProject"-->
+                      <template v-slot:item._id="{ item }">
+                        <v-btn text tile x-small :to="'/projects/'+item._id"  >View Details</v-btn>
+                            <v-btn
+                              small
+                              icon
+                              color="info"
+                              class="mr-2"
+                              :to="'./edit/'+item._id"
+                            >
+                              <v-icon>mdi-pencil</v-icon>
+                            </v-btn>
+                            <v-btn
+                              small
+                              icon
+                              color="error"
+                              class="mr-2"
+                              :to="'./edit/'+item._id"
+                            >
+                              <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                            
+                      </template>
+
+                      <template v-slot:item.project_id="{ item }">
+                          <strong>{{item.project_id}} <v-btn x-small tile text @click="copy_project_id(item.project_id)">Copy</v-btn></strong>
+                      </template>
+
+                        <template v-slot:no-data>
+                          <v-btn
+                            color="primary"
+                            @click="update_options"
+                          >
+                            Reset
+                          </v-btn>
+                        </template>
+                      </v-data-table>
+     
     </v-col>
 
     <v-dialog
@@ -239,6 +279,45 @@ export default {
 
       all_projects:[],
 
+       search:"",
+      dialog: false,
+      dialogDelete: false,
+      headers: [
+      { text: '', value: 'data-table-expand' },
+      // {
+      //   text: '',
+      //   align: 'start',
+      //   sortable: false,
+      //   value: 'profile_icon',
+      // },
+      {
+        text: 'Project Name',
+        align: 'start',
+        sortable: false,
+        value: 'project_name',
+      },
+      { 
+        text: 'Project ID',
+        align: 'start',
+        sortable: false, 
+        value: 'project_id' 
+      },
+      // { text: 'Phone',
+      //   align: 'start',
+      //   sortable: false, 
+      //   value: 'phone_number' 
+      // },
+      { text: 'Action',
+        align: 'center',
+        sortable: false, 
+        value: '_id' 
+      },
+    ],
+    TableData: [],
+    totalCount:0,
+    loading: true,
+    options: {},
+
       //socket_io:null,
     };
   },
@@ -271,15 +350,109 @@ export default {
    
     //this.all_jira_groups = await this.getJiraGroups();
     //this.all_slack_groups = await this.getSlackGroups();
+  
+      try{
+        this.loading = true;
+        
+        // var teams_all = await this.$axios.get('/api/team/all');
+        // this.teams = teams_all.data;
+        //this.team_selected = teams_all.data[0].team_name;
+        // var vehicle_all = await this.$axios.get('/api/vehicle/all');
+        // this.vehicle_types = vehicle_all.data;
+        //this.vehicle_selected = vehicle_all.data[0].vehicle_type
+
+        var res = await this.$axios.get('/api/projects');
+        console.log(res.data.data.docs);
+        this.TableData = res.data.data.docs;
+        this.totalCount = res.data.data.totalDocs;
+
+        console.log(this.TableData);
+        
+        this.loading = false;
+        }catch(err){
+          console.log("E::A")
+        }
+
+
   },
   watch: {
     new_project(n,o){
       if(n == false){
         
       }
-    }
+    },
+    async search(val){
+     
+      var table_options = {
+        items_perpage : this.options.itemsPerPage,
+        page:this.options.page,
+        search:val
+      }
+    
+      try{
+      this.loading = true;
+      var res = await this.$axios.get('/api/projects',{ params:table_options});
+    this.TableData = res.data.data.docs;
+        this.totalCount = res.data.data.totalDocs;
+      this.loading = false;
+      }catch(err){
+        console.log("E::A")
+        this.loading = false;
+      }
+      
+    },
+     options: {
+        async handler (val) {
+         
+         console.log(val)
+        var table_options = {
+          items_perpage : val.itemsPerPage,
+          page:val.page
+        }
+        try{
+        this.loading = true;
+        var res = await this.$axios.get('/api/projects',{ params:table_options});
+       this.TableData = res.data.data.docs;
+        this.totalCount = res.data.data.totalDocs;
+        this.loading = false;
+        }catch(err){
+          console.log("E::A")
+          this.loading = false;
+        }
+       
+        
+        },
+        deep: true,
+      },
   },
   methods: {
+    async update_options(val){
+       // console.log(val)
+        var table_options = {
+          items_perpage : val.itemsPerPage,
+          page:val.page
+        }
+        if(this.team_selected != ""){
+          table_options.team = this.team_selected
+        }
+        if(this.vehicle_selected != ""){
+          table_options.vehicle= this.vehicle_selected
+        }
+        try{
+        this.loading = true;
+        var res = await this.$axios.get('/api/projects',{ params:table_options});
+        this.TableData = res.data.data.docs;
+        this.totalCount = res.data.data.totalDocs;
+        this.loading = false;
+        }catch(err){
+          console.log("E::A")
+          this.loading = false;
+        }
+      },
+    copy_project_id(project_id){
+        navigator.clipboard.writeText(project_id);
+        alert("Project ID copied to clipboard :: " + project_id);
+    },
     clear_project_form(){
       this.new_project_name = "";
       this.new_project_id = "";

@@ -36,29 +36,9 @@
                         ></v-divider>
                         <v-btn color="red" to="./add" class="white--text">ADD</v-btn>
                         <v-spacer></v-spacer>
-                        <!-- <v-select
-                        :items="teams"
-                        label="Select Teams"
-                        item-text="team_name"
-                        v-model="team_selected"
-                        dense
-                        > 
-                        </v-select>
-                        <v-btn v-if="team_selected != ''" icon @click="team_selected = '' ">
-                          <v-icon>mdi-close-circle</v-icon>
-                        </v-btn> -->
+
                         <v-spacer></v-spacer>
-                        <!-- <v-select
-                        :items="vehicle_types"
-                        item-text="vehicle_type"
-                        label="Select Vehicle Type"
-                        v-model="vehicle_selected"
-                        dense
-                        > 
-                        </v-select>
-                         <v-btn v-if="vehicle_selected != ''" icon @click="vehicle_selected = '' ">
-                          <v-icon>mdi-close-circle</v-icon>
-                        </v-btn> -->
+
                         <v-spacer></v-spacer>
                         <v-text-field
                         v-model="search"
@@ -70,15 +50,6 @@
                        
                         </v-toolbar>
                         </template>
-
-
-
-                      <!-- <template v-slot:item.profile_icon="{ item }">
-                          <v-avatar  color="indigo" size="48">
-                            <v-img v-if="item.profile_icon" :src="item.profile_icon" ></v-img>
-                            <span v-else class="white--text headline">{{item.username[0].toUpperCase()+item.username[item.username.length-1].toUpperCase()}}</span>
-                          </v-avatar>
-                      </template> -->
 
                       <template v-slot:item._id="{ item }">
                             <v-btn
@@ -101,46 +72,14 @@
                             </v-btn>
                             
                       </template>
-                          
-
-                      <!-- <template v-slot:expanded-item="{ headers, item }">
-                        <td :colspan="headers.length">
-                          <v-card>
-                            <v-card-title>{{item.username}}</v-card-title>
-                            <v-container>
-                            <v-row>
-                       
-                              <v-col v-if="item.team"><v-card-text>Vehicle Type : {{item.team}}</v-card-text></v-col>
-                              <v-col v-if="item.vehicle_type"><v-card-text>Vehicle Type : {{item.vehicle_type}}</v-card-text></v-col>
-                              <v-col v-if="item.vehicle_number"><v-card-text>Vehicle Number : {{item.vehicle_number}}</v-card-text></v-col>
-                              <v-col v-if="item.license_number"><v-card-text>License Number : {{item.license_number}}</v-card-text></v-col>
-                              <v-col v-if="item.aadhar_number"><v-card-text>Aadhar Number : {{item.aadhar_number}}</v-card-text></v-col>
-                              <v-col v-if="item.device_type"><v-card-text>Device Type : {{item.device_type}}</v-card-text></v-col>
-
-
-                              <v-col v-if="item.device_battery_level"><v-card-text>Device Battery Level : {{item.device_battery_level}}</v-card-text></v-col>
-                              
-                              <v-col v-if="item.created_at"><v-card-text>Created Date : {{new Date(item.created_at).toLocaleDateString("en-US")}}</v-card-text></v-col>
-                              <v-col>
-                                <div v-if="item.teams">
-                                <v-card-text v-if="item.teams.length > 0">Teams : {{item.teams}}</v-card-text>
-                                <v-card-text v-else>Teams : 0</v-card-text>
-                                </div>
-                              </v-col>
-                            </v-row>
-                            </v-container>
-                          </v-card>
-                        </td>
-                      </template> -->
-
-                      <template v-slot:no-data>
-                      <v-btn
-                        color="primary"
-                        @click="update_options"
-                      >
-                        Reset
-                      </v-btn>
-                    </template>
+                        <template v-slot:no-data>
+                          <v-btn
+                            color="primary"
+                            @click="update_options"
+                          >
+                            Reset
+                          </v-btn>
+                        </template>
                       </v-data-table>
                 </v-col>
             </v-row>
@@ -234,7 +173,7 @@
         try{
         this.loading = true;
         var res = await this.$axios.get('/api/users/',{ params:table_options});
-    this.TableData = res.data.data.docs;
+        this.TableData = res.data.data.docs;
         this.totalCount = res.data.data.totalDocs;
         this.loading = false;
         }catch(err){

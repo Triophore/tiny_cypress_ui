@@ -261,11 +261,11 @@ export default {
                         //     to: "/settings/templates",
                         //     icon: "mdi-buffer"
                         // },
-                        // {
-                        //     text: "Geo Fence",
-                        //     to: "/settings/geofence",
-                        //     icon: "mdi-map-legend"
-                        // },
+                        {
+                            text: "Agents",
+                            to: "/settings/agents",
+                            icon: "mdi-robot"
+                        },
                         {
                             text: "MS Teams",
                             to: "/settings/ms_teams",
