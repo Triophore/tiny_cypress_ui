@@ -32,6 +32,7 @@ export default {
     { src: '~/plugins/vue_toastifictaion.js', ssr: false },
     { src: '~/plugins/vue_date_time.js', ssr: false },
     { src: '~/plugins/vue_socket_io.js', ssr: false },
+    //{ src: '~/plugins/vue_highlighter.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

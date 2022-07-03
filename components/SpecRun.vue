@@ -31,7 +31,7 @@
 
   </v-expansion-panel-header>
   <v-expansion-panel-content>
-      <v-card flat>     
+      <v-card flat v-if="item.status != 'running'">     
         <v-tabs v-model="tab" dense>
           <v-tab>TEST</v-tab>
           <v-tab>Video</v-tab>
@@ -46,24 +46,30 @@
                         <v-list dense>
                           <v-subheader>STATS</v-subheader>
                             <v-list-item>
+                              <v-list-item-title>
                               <v-list-item-content>
-                                Failures : {{item.results.failures}}
+                                Failures : {{item.results.stats.failures}}
                               </v-list-item-content>
+                              </v-list-item-title>
+                            </v-list-item>
+                            <v-list-item>
+                              <v-list-item-title>
+                              <v-list-item-content>
+                                Passes : {{item.results.stats.passes}}
+                              </v-list-item-content>
+                              </v-list-item-title>
+                            </v-list-item>
+                            <v-list-item>
+                              <v-list-item-title>
+                              <v-list-item-content>
+                                Tests : {{item.results.stats.test}}
+                              </v-list-item-content>
+                              </v-list-item-title>
                             </v-list-item>
                             <v-list-item>
                               <v-list-item-content>
-                                Passes : {{item.results.passes}}
-                              </v-list-item-content>
-                            </v-list-item>
-                            <v-list-item>
-                              <v-list-item-content>
-                                Tests : {{item.results.test}}
-                              </v-list-item-content>
-                            </v-list-item>
-                            <v-list-item>
-                              <v-list-item-content>
-                                <v-list-item-title v-text="item.text">
-                                  
+                                <v-list-item-title>
+                                   Tests : {{item.results.stats.test}}
                                 </v-list-item-title>
                               </v-list-item-content>
                             </v-list-item>
@@ -71,20 +77,68 @@
                   </v-card-text>
                 </v-card>
               </v-col>
-              <v-col>
-                <v-card>
-                  <v-card-title></v-card-title>
+              
+              <v-col v-if="item.results">
+                <v-card flat>
+                  <v-card-title>Hooks</v-card-title>
+                   <v-expansion-panels multiple>
+                        <v-expansion-panel
+                          v-for="(titem,i) in item.results.hooks"
+                          :key="i"
+                        >
+                          <v-expansion-panel-header>
+                            {{titem.hookName}}
+                          </v-expansion-panel-header>
+                          <v-expansion-panel-content>
+                           <!-- <v-textarea
+                            outlined
+                            name="input-7-4"
+                            label="Outlined textarea"
+                            :value="titem.body"
+                          ></v-textarea> -->
+                          <!-- <pre v-highlightjs="titem.body"><code class="javascript"></code></pre> -->
+                           <CodeEditor theme="light" :value="titem.body" :read_only="true" style="width:100%; border-radius:0px;"  ></CodeEditor>
+                          </v-expansion-panel-content>
+                        </v-expansion-panel>
+                      </v-expansion-panels>
                 </v-card>
               </v-col>
-              <v-col>
-                <v-card>
-                  <v-card-title></v-card-title>
+            </v-row>
+            <v-row>
+                <v-col   v-if="item.results">
+                <v-card flat>
+                  <v-card-title>Tests</v-card-title>
+                  <!-- <v-card-text>  -->
+                      <v-expansion-panels multiple>
+                        <v-expansion-panel
+                          v-for="(titem,i) in item.results.tests"
+                          :key="i"
+                        >
+                          <v-expansion-panel-header>
+                            {{titem.title[0]}} -- {{titem.title[1]}}
+                          </v-expansion-panel-header>
+                          <v-expansion-panel-content>
+                           <!-- <v-textarea
+                            outlined
+                            name="input-7-4"
+                            label="Outlined textarea"
+                            :value="titem.body"
+                          ></v-textarea> -->
+                          <!-- <pre v-highlightjs="titem.body" style="width:100%;"><code class="javascript"></code></pre> -->
+
+                            <!-- <HighCode :codeValue="'Hello'" theme="dark"
+                                lang="js"></HighCode> -->
+                                <CodeEditor theme="light" :value="titem.body" :read_only="true" style="width:100%; border-radius:0px;"  ></CodeEditor>
+                          </v-expansion-panel-content>
+                        </v-expansion-panel>
+                      </v-expansion-panels>
+                  <!-- </v-card-text> -->
                 </v-card>
               </v-col>
             </v-row>
           </v-tab-item>
           <v-tab-item>
-            <video src="/video.mp4" style="height:100%;" controls></video>
+            <video src="http://localhost:4500/videos/71c5b3e6-2787-484d-8442-4b9637ebaf30.mp4" style="height:100%; width:100%;" controls></video>
           </v-tab-item>
           <v-tab-item>
             <div>
@@ -95,6 +149,9 @@
             </div>
           </v-tab-item>
         </v-tabs-items>
+      </v-card>
+      <v-card v-else flat>
+        <v-card-title>No Test Data</v-card-title>
       </v-card>
   </v-expansion-panel-content>
 </v-expansion-panel>
@@ -115,6 +172,10 @@
 <script>
 import VuePureLightbox from 'vue-pure-lightbox'
 import styles from 'vue-pure-lightbox/dist/VuePureLightbox.css'
+// import { HighCode } from 'vue-highlight-code';
+// import 'vue-highlight-code/dist/style.css';
+        
+import CodeEditor from 'simple-code-editor';
 export default {
   data() {
     return {
@@ -126,6 +187,7 @@ export default {
 	      ]
     };
   },
+
   methods: {
     putSpec(spec){
       //this.specs = [ ...spec];
@@ -169,6 +231,7 @@ export default {
   components: {
     // videoPlayer,
         VuePureLightbox,
+      CodeEditor
   },
 };
 </script>
@@ -177,4 +240,6 @@ export default {
 .lightbox__close{
     top : 200px !important;
 }
+
+
 </style>

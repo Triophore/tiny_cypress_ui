@@ -310,10 +310,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 @media print {
   .no-print {
     display: none;
   }
 }
+
+
 </style>

@@ -247,7 +247,7 @@ export default {
             console.log('socket connected')
         },
         update_agent: async function (data) {
-           // this.agents = [];
+            this.agents = [];
            if(this.project.project_id == data.project_id){
             var agent_name = await this.$axios.get("/api/agents/getbynumber/"+data.agent_name);
             data.agent_name_string = agent_name.data.name;
