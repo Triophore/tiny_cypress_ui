@@ -123,11 +123,23 @@
             <v-subheader>Project Details</v-subheader>
             <v-list-item>
               <v-list-item-content>
-                <v-text-field
+               <v-row>
+                <v-col>
+                   <v-text-field
                   label="Project Name"
                   hide-details="auto"
                   v-model="new_project_name"
                 ></v-text-field>
+                </v-col>
+                <v-col>
+                   <v-select
+                  label="Project Type"
+                  hide-details="auto"
+                  :items="items_new_project_type"
+                  v-model="new_project_type"
+                ></v-select>
+                </v-col>
+               </v-row>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -265,6 +277,13 @@ export default {
       all_jira_groups:[],
       all_slack_groups:[],
 
+      items_new_project_type:[
+        "Cypress",
+        "Puppet"
+      ],
+
+      new_project_type:"",
+
 
       selected_jira:"",
       selected_slack:"",
@@ -302,11 +321,11 @@ export default {
         sortable: false, 
         value: 'project_id' 
       },
-      // { text: 'Phone',
-      //   align: 'start',
-      //   sortable: false, 
-      //   value: 'phone_number' 
-      // },
+      { text: 'Project Type',
+        align: 'start',
+        sortable: false, 
+        value: 'project_type' 
+      },
       { text: 'Action',
         align: 'center',
         sortable: false, 
@@ -470,6 +489,10 @@ export default {
       this.new_project_id = Math.random().toString(36).slice(2);
     },
     async create_project(){
+      if(!this.new_project_type){
+        alert("please select project type");
+        return;
+      }
       try {
         var _data = {
           project_name: this.new_project_name,
@@ -483,6 +506,7 @@ export default {
           project_end: this.checkbox_project_end,
           spec_start: this.checkbox_spec_start,
           spec_stop: this.checkbox_spec_stop,
+          project_type:this.new_project_type
         }
         var _res = await this.$axios.post('/api/project/add', _data);
         this.clear_project_form();
