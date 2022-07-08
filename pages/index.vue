@@ -1,24 +1,8 @@
 <template>
+<div>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="12" md="12">
-      <!--v-toolbar >
-        <v-toolbar-title>PROJECTS</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-btn text @click="new_project = true">CREATE PROJECT</v-btn>
-        <v-spacer></v-spacer>
-
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-toolbar-->
-
-
-       <v-data-table
+        <v-data-table
                         :headers="headers"
                         :items="TableData"
                         :options.sync="options"
@@ -100,8 +84,13 @@
                       </v-data-table>
      
     </v-col>
-
-    <v-dialog
+  </v-row>
+  <v-row justify="center" align="center">
+    <v-col cols="12" sm="12" md="12">
+      
+    </v-col>
+  </v-row>
+      <v-dialog
       v-model="new_project"
       fullscreen
       hide-overlay
@@ -258,7 +247,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-  </v-row>
+    </div>
 </template>
 
 <script>

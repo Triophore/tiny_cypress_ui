@@ -10,8 +10,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - tinycypress',
-    title: 'tinycypress',
+    titleTemplate: '%s - ZENO',
+    title: 'ZENO',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -32,6 +32,7 @@ export default {
     { src: '~/plugins/vue_toastifictaion.js', ssr: false },
     { src: '~/plugins/vue_date_time.js', ssr: false },
     { src: '~/plugins/vue_socket_io.js', ssr: false },
+    { src: '~/plugins/vue_baklava.js', ssr: false }
     //{ src: '~/plugins/vue_highlighter.js', ssr: false },
   ],
 
@@ -118,5 +119,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    babel:{
+      plugins: [
+        ['@babel/plugin-proposal-private-methods', { loose: true }]
+      ]
+    }
   }
 }

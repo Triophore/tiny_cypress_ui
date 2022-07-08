@@ -98,7 +98,8 @@
           add_type_name : "",
           agent_types:[
             "Cypress",
-            "Puppet"
+            "Puppet",
+            "MPR"
           ],
           api_keys: [
           

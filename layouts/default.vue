@@ -143,7 +143,7 @@ export default {
             miniVariant: false,
             right: true,
             rightDrawer: false,
-            title: "TINY CYPRESS",
+            title: "ZENO",
             links: [
                 {
                     to: "/",

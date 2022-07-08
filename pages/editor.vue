@@ -1,0 +1,179 @@
+<template>
+    <div style="height: 90vh; width: 100%;">
+        <hint-overlay />
+        <baklava-editor :plugin="viewPlugin"  />
+    </div>
+</template>
+
+<script>
+import HintOverlay from "../components/Node/HintOverlay.vue";
+import { Editor } from "@baklavajs/core";
+import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
+import { OptionPlugin } from "@baklavajs/plugin-options-vue";
+import { Engine } from "@baklavajs/plugin-engine";
+import { MathNode } from "../components/Node/MathNode"
+import { DisplayNode } from "../components/Node/DisplayNode";
+
+
+export default {
+    components: { HintOverlay },
+    data() {
+        return {
+            editor: new Editor(),
+            viewPlugin: new ViewPlugin(),
+            engine: new Engine(true)
+        };
+    },
+    computed: {
+        dark_theme() {
+            return this.$store.state.theme.dark_theme;
+        },
+    },
+    watch:{
+        dark_theme(no,o){
+            console.log("watch",n);
+            var n = this.dark_theme;
+              console.log("watch",n);
+            if(!n){ 
+            var editor = document.querySelector(".node-editor");
+            var background = editor.firstChild;
+            background.classList.remove("background");
+            background.classList.add("background_light");
+            var connections = editor.querySelector(".connections-container").querySelectorAll("path");
+            console.log(connections)
+            if(connections.length > 0){
+                  connections.forEach(function(connection){
+                if( connection.classList.length > 0){
+                 connection.classList.remove("connection");
+                }
+                connection.classList.add("connection_light")
+                console.log(connection)
+                });
+            }
+            }else{
+            var editor = document.querySelector(".node-editor");
+            var background = editor.firstChild
+            background.classList.remove("background_light");
+            background.classList.add("background");
+            var connections = editor.querySelector(".connections-container").querySelectorAll("path");
+            console.log(connections)
+            if(connections.length > 0){
+                  connections.forEach(function(connection){
+                if( connection.classList.length > 0){
+                 connection.classList.remove("connection_light");
+                }
+                connection.classList.add("connection")
+                console.log(connection)
+                });
+            }
+            }
+
+        }
+    },
+    created() {
+        // Register the plugins
+        // The view plugin is used for rendering the nodes
+        this.editor.use(this.viewPlugin);
+        // The option plugin provides some default option UI elements
+        this.editor.use(new OptionPlugin());
+        // The engine plugin calculates the nodes in the graph in the
+        // correct order using the "calculate" methods of the nodes
+        this.editor.use(this.engine);
+
+        // Show a minimap in the top right corner
+        this.viewPlugin.enableMinimap = true;
+
+        
+
+        // register the nodes we have defined, so they can be
+        // added by the user as well as saved & loaded.
+        this.editor.registerNodeType("MathNode", MathNode);
+        this.editor.registerNodeType("DisplayNode", DisplayNode);
+
+        // add some nodes so the screen is not empty on startup
+        const node1 = this.addNodeWithCoordinates(MathNode, 100, 140);
+        const node2 = this.addNodeWithCoordinates(DisplayNode, 400, 140);
+        this.editor.addConnection(
+            node1.getInterface("Result"),
+            node2.getInterface("Value")
+        );
+        this.engine.calculate();
+
+        
+    },
+    mounted(){
+        if(this.dark_theme){
+            var editor = document.querySelector(".node-editor");
+            var connections = editor.querySelector(".connections-container").querySelectorAll("path");
+            var background = editor.firstChild;
+            background.classList.remove("background_light");
+            background.classList.add("background");
+            if(connections.length > 0){
+                  connections.forEach(function(connection){
+                if( connection.classList.length > 0){
+                 connection.classList.remove("connection_light");
+                }
+                connection.classList.add("connection")
+                console.log(connection)
+                });
+            }
+        }else{
+            var editor = document.querySelector(".node-editor");
+            var background = editor.querySelector(".background");
+            background.classList.remove("background");
+            background.classList.add("background_light");
+            var connections = editor.querySelector(".connections-container").querySelectorAll("path");
+            if(connections.length > 0){
+                  connections.forEach(function(connection){
+                if( connection.classList.length > 0){
+                 connection.classList.remove("connection");
+                }
+                connection.classList.add("connection_light")
+                console.log(connection)
+                });
+            }
+           
+        }
+    },
+    methods: {
+        addNodeWithCoordinates(nodeType, x, y) {
+            const n = new nodeType();
+            this.editor.addNode(n);
+            n.position.x = x;
+            n.position.y = y;
+            return n;
+        }
+    }
+};
+</script>
+
+<style>
+.hint{
+    left : 5rem !important;
+}
+
+.node-editor .background_light {
+	/* background-color: #232323; */
+	background-image: linear-gradient(rgba(0,0,0,0.13333) 2px, transparent 2px),linear-gradient(90deg, rgba(0,0,0,0.13333) 2px, transparent 2px),linear-gradient(#131313 1px, transparent 1px),linear-gradient(90deg, #131313 1px, transparent 1px);
+	background-repeat: repeat;
+	width: 100%;
+	height: 100%;
+	pointer-events: none !important;
+}
+
+.node_light {
+  max-width: 20rem;
+  background: rgba(255, 255, 255, 0.8);
+  color: rgb(25, 25, 25);
+  border-radius: 4px;
+  position: absolute;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.8));
+  transition: box-shadow .1s linear,filter .1s linear;
+}
+
+.connection_light {
+  stroke: rgb(12, 12, 12) !important;
+  stroke-width: 2px;
+  fill: none;
+}
+</style>

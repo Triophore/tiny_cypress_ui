@@ -108,10 +108,12 @@ export default {
     console.log(t)
     if(t == "true"){
        this.$vuetify.theme.dark = true
+       this.$store.state.theme.dark_theme = true;
        this.dark = true;
        console.log("true dark")
     }else{
        this.$vuetify.theme.light = true
+       this.$store.state.theme.dark_theme = false;
        this.dark = false;
        console.log("false dark")
     }
@@ -121,10 +123,12 @@ export default {
      var n = this.dark;
       if(n){
       this.$vuetify.theme.dark = true;
+      this.$store.state.theme.dark_theme = true;
       console.log(n)
       localStorage.setItem("dark_theme", "true");
       }else{
       this.$vuetify.theme.dark = false;
+      this.$store.state.theme.dark_theme = false;
       console.log(n)
       localStorage.setItem("dark_theme", "false");
       }
