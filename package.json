@@ -19,6 +19,7 @@
     "highlight.js": "^11.5.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
+    "litegraph.js": "^0.7.10",
     "nuxt": "^2.15.7",
     "prompt-sync": "^4.2.0",
     "rete": "^1.4.8",

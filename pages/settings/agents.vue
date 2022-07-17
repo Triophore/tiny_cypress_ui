@@ -99,7 +99,7 @@
           agent_types:[
             "Cypress",
             "Puppet",
-            "MPR"
+            "Patch"
           ],
           api_keys: [
           

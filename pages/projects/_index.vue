@@ -39,9 +39,9 @@
             </v-toolbar>
 
           <div v-if="project"> 
-            <!-- <div v-if="project.project_type == 'Cypress'">
+            <div v-if="project.project_type == 'Cypress'">
               <Cypress :project="project" />
-            </div> -->
+            </div>
             <div v-if="project.project_type == 'Puppet'">
               <Puppet :project="project" />
             </div>

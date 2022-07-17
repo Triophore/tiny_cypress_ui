@@ -5,6 +5,7 @@ export const DisplayNode = new NodeBuilder("DisplayNode")
     .addInputInterface("Value")
     .addOption("ValueText", "TextOption")
     .addOption("Test", "InputOption")
+    .addOption("SidebarTest", "ButtonOption", () => ({ testtext: "any" }), "MySidebarOption")
     .onCalculate(n => {
         let value = n.getInterface("Value").value;
         if (typeof value === "number") {

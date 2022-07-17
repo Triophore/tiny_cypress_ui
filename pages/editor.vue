@@ -1,27 +1,18 @@
 <template>
-    <div style="height: 90vh; width: 100%;">
-        <hint-overlay />
-        <baklava-editor :plugin="viewPlugin"  />
+    <div>
+       <canvas id='mycanvas' width='1800' height='800' style='border: 1px solid'></canvas>
     </div>
 </template>
 
 <script>
-import HintOverlay from "../components/Node/HintOverlay.vue";
-import { Editor } from "@baklavajs/core";
-import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
-import { OptionPlugin } from "@baklavajs/plugin-options-vue";
-import { Engine } from "@baklavajs/plugin-engine";
-import { MathNode } from "../components/Node/MathNode"
-import { DisplayNode } from "../components/Node/DisplayNode";
 
+import  * as LS  from "litegraph.js"
 
 export default {
-    components: { HintOverlay },
+    components: {  },
     data() {
         return {
-            editor: new Editor(),
-            viewPlugin: new ViewPlugin(),
-            engine: new Engine(true)
+          
         };
     },
     computed: {
@@ -30,150 +21,229 @@ export default {
         },
     },
     watch:{
-        dark_theme(no,o){
-            console.log("watch",n);
-            var n = this.dark_theme;
-              console.log("watch",n);
-            if(!n){ 
-            var editor = document.querySelector(".node-editor");
-            var background = editor.firstChild;
-            background.classList.remove("background");
-            background.classList.add("background_light");
-            var connections = editor.querySelector(".connections-container").querySelectorAll("path");
-            console.log(connections)
-            if(connections.length > 0){
-                  connections.forEach(function(connection){
-                if( connection.classList.length > 0){
-                 connection.classList.remove("connection");
-                }
-                connection.classList.add("connection_light")
-                console.log(connection)
-                });
-            }
-            }else{
-            var editor = document.querySelector(".node-editor");
-            var background = editor.firstChild
-            background.classList.remove("background_light");
-            background.classList.add("background");
-            var connections = editor.querySelector(".connections-container").querySelectorAll("path");
-            console.log(connections)
-            if(connections.length > 0){
-                  connections.forEach(function(connection){
-                if( connection.classList.length > 0){
-                 connection.classList.remove("connection_light");
-                }
-                connection.classList.add("connection")
-                console.log(connection)
-                });
-            }
-            }
-
-        }
+      
     },
     created() {
-        // Register the plugins
-        // The view plugin is used for rendering the nodes
-        this.editor.use(this.viewPlugin);
-        // The option plugin provides some default option UI elements
-        this.editor.use(new OptionPlugin());
-        // The engine plugin calculates the nodes in the graph in the
-        // correct order using the "calculate" methods of the nodes
-        this.editor.use(this.engine);
-
-        // Show a minimap in the top right corner
-        this.viewPlugin.enableMinimap = true;
-
-        
-
-        // register the nodes we have defined, so they can be
-        // added by the user as well as saved & loaded.
-        this.editor.registerNodeType("MathNode", MathNode);
-        this.editor.registerNodeType("DisplayNode", DisplayNode);
-
-        // add some nodes so the screen is not empty on startup
-        const node1 = this.addNodeWithCoordinates(MathNode, 100, 140);
-        const node2 = this.addNodeWithCoordinates(DisplayNode, 400, 140);
-        this.editor.addConnection(
-            node1.getInterface("Result"),
-            node2.getInterface("Value")
-        );
-        this.engine.calculate();
-
         
     },
     mounted(){
-        if(this.dark_theme){
-            var editor = document.querySelector(".node-editor");
-            var connections = editor.querySelector(".connections-container").querySelectorAll("path");
-            var background = editor.firstChild;
-            background.classList.remove("background_light");
-            background.classList.add("background");
-            if(connections.length > 0){
-                  connections.forEach(function(connection){
-                if( connection.classList.length > 0){
-                 connection.classList.remove("connection_light");
-                }
-                connection.classList.add("connection")
-                console.log(connection)
-                });
-            }
-        }else{
-            var editor = document.querySelector(".node-editor");
-            var background = editor.querySelector(".background");
-            background.classList.remove("background");
-            background.classList.add("background_light");
-            var connections = editor.querySelector(".connections-container").querySelectorAll("path");
-            if(connections.length > 0){
-                  connections.forEach(function(connection){
-                if( connection.classList.length > 0){
-                 connection.classList.remove("connection");
-                }
-                connection.classList.add("connection_light")
-                console.log(connection)
-                });
-            }
-           
-        }
+
+
+        var graph = new LS.LGraph();
+
+        var canvas = new LS.LGraphCanvas("#mycanvas", graph);
+      
+        graph.start()
+        // var node_const = LS.LiteGraph.createNode("basic/const");
+        // node_const.pos = [200,200];
+        // graph.add(node_const);
+        // node_const.setValue(4.5);
+
+        // var node_watch = LS.LiteGraph.createNode("basic/watch");
+        // node_watch.pos = [700,200];
+        // graph.add(node_watch);
+
+        // node_const.connect(0, node_watch, 0 );
+
+      
+
+        
     },
     methods: {
-        addNodeWithCoordinates(nodeType, x, y) {
-            const n = new nodeType();
-            this.editor.addNode(n);
-            n.position.x = x;
-            n.position.y = y;
-            return n;
-        }
+        
     }
 };
 </script>
 
 <style>
-.hint{
-    left : 5rem !important;
+@import url("../node_modules/litegraph.js/css/litegraph.css");
+.settings{
+    display: none;
+}
+.litegraph .dialog {
+   /* position: absolute; */
+   /* top: 50%;
+    left: 50%;
+    margin-top: 150px;
+    margin-left: 200px; */
+
+    background-color: #2A2A2A;
+
+    min-width: 400px;
+    min-height: 200px;
+	box-shadow: 0 0 4px #111;
+    border-radius: 6px;
 }
 
-.node-editor .background_light {
-	/* background-color: #232323; */
-	background-image: linear-gradient(rgba(0,0,0,0.13333) 2px, transparent 2px),linear-gradient(90deg, rgba(0,0,0,0.13333) 2px, transparent 2px),linear-gradient(#131313 1px, transparent 1px),linear-gradient(90deg, #131313 1px, transparent 1px);
-	background-repeat: repeat;
-	width: 100%;
-	height: 100%;
-	pointer-events: none !important;
+.litegraph .dialog.settings {
+	left: 10px;
+	top: 10px;
+	height: 20vh;
+	margin: auto;
+    max-width: 50%;
+    position: fixed;
 }
 
-.node_light {
-  max-width: 20rem;
-  background: rgba(255, 255, 255, 0.8);
-  color: rgb(25, 25, 25);
-  border-radius: 4px;
-  position: absolute;
-  filter: drop-shadow(0 0 3px rgba(0,0,0,0.8));
-  transition: box-shadow .1s linear,filter .1s linear;
+.litegraph .dialog.centered {
+    top: 50px;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    min-width: 600px;
+    min-height: 300px;
+    height: calc( 100% - 100px );
+	margin: auto;
 }
 
-.connection_light {
-  stroke: rgb(12, 12, 12) !important;
-  stroke-width: 2px;
-  fill: none;
+.litegraph .dialog .close {
+    float: right;
+	margin: 4px;
+	margin-right: 10px;
+	cursor: pointer;
+	font-size: 1.4em;
+}
+
+.litegraph .dialog .close:hover {
+	color: white;
+}
+
+.litegraph .dialog .dialog-header {
+	color: #AAA;
+	border-bottom: 1px solid #161616;
+}
+
+.litegraph .dialog .dialog-header { height: 40px; }
+.litegraph .dialog .dialog-footer { height: 50px; padding: 10px; border-top: 1px solid #1a1a1a;}
+
+.litegraph .dialog .dialog-header .dialog-title {
+    font: 20px "Arial";
+    margin: 4px;
+    padding: 4px 10px;
+    display: inline-block;
+}
+
+.litegraph .dialog .dialog-content, .litegraph .dialog .dialog-alt-content {
+    height: calc(100% - 90px);
+    width: 100%;
+	min-height: 100px;
+    display: inline-block;
+	color: #AAA;
+    /*background-color: black;*/
+    overflow: auto;
+}
+
+.litegraph .dialog .dialog-content h3 {
+	margin: 10px;
+}
+
+.litegraph .dialog .dialog-content .connections {
+	flex-direction: row;
+}
+
+.litegraph .dialog .dialog-content .connections .connections_side {
+	width: calc(50% - 5px);
+	min-height: 100px;
+	background-color: black;
+	display: flex;
+}
+
+.litegraph .dialog .node_type {
+	font-size: 1.2em;
+	display: block;
+	margin: 10px;
+}
+
+.litegraph .dialog .node_desc {
+	opacity: 0.5;
+	display: block;
+	margin: 10px;
+}
+
+.litegraph .dialog .separator {
+	display: block;
+	width: calc( 100% - 4px );
+	height: 1px;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #333;
+	margin: 10px 2px;
+	padding: 0;
+}
+
+.litegraph .dialog .property {
+	margin-bottom: 2px;
+	padding: 4px;
+}
+
+.litegraph .dialog .property:hover {
+	background: #545454;
+}
+
+.litegraph .dialog .property_name {
+	color: #737373;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    width: 160px;
+	padding-left: 4px;
+	overflow: hidden;
+    margin-right: 6px;
+}
+
+.litegraph .dialog .property:hover .property_name {
+    color: white;
+}
+
+.litegraph .dialog .property_value {
+    display: inline-block;
+    text-align: right;
+	color: #AAA;
+	background-color: #1A1A1A;
+    /*width: calc( 100% - 122px );*/
+    max-width: calc( 100% - 162px );
+    min-width: 200px;
+	max-height: 300px;
+    min-height: 20px;
+    padding: 4px;
+	padding-right: 12px;
+	overflow: hidden;
+	cursor: pointer;
+	border-radius: 3px;
+}
+
+.litegraph .dialog .property_value:hover {
+	color: white;
+}
+
+.litegraph .dialog .property.boolean .property_value {
+	padding-right: 30px;
+    color: #A88;
+    /*width: auto;
+    float: right;*/
+}
+
+.litegraph .dialog .property.boolean.bool-on .property_name{
+    color: #8A8;
+}
+.litegraph .dialog .property.boolean.bool-on .property_value{
+    color: #8A8;
+}
+
+.litegraph .dialog .btn {
+	border: 0;
+	border-radius: 4px;
+    padding: 4px 20px;
+    margin-left: 0px;
+    background-color: #060606;
+    color: #8e8e8e;
+}
+
+.litegraph .dialog .btn:hover {
+    background-color: #111;
+    color: #FFF;
+}
+
+.litegraph .dialog .btn.delete:hover {
+    background-color: #F33;
+    color: black;
 }
 </style>

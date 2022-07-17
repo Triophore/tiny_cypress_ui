@@ -7,7 +7,7 @@
               </v-tabs>
               <v-tabs-items v-model="tab">
                 <v-tab-item>
-                  <!-- <v-expansion-panels flat multiple v-if="project_before != null">
+                  <v-expansion-panels flat multiple v-if="project_before != null">
                     <v-expansion-panel v-for="(item, i) in project_before.specs" :key="i">
                       <v-expansion-panel-header>
                         <strong>SPEC : {{item.baseName}} -- TYPE : {{item.specType}}</strong>
@@ -16,7 +16,7 @@
                         <SpecRun/>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
-                  </v-expansion-panels> -->
+                  </v-expansion-panels>
                    <SpecRun ref="specs" />
                 </v-tab-item>
                 <v-tab-item>
