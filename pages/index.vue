@@ -73,14 +73,14 @@
                           <strong>{{item.project_id}} <v-btn x-small tile text @click="copy_project_id(item.project_id)">Copy</v-btn></strong>
                       </template>
 
-                        <template v-slot:no-data>
+                        <!-- <template v-slot:no-data>
                           <v-btn
                             color="primary"
                             @click="update_options"
                           >
                             Reset
                           </v-btn>
-                        </template>
+                        </template> -->
                       </v-data-table>
      
     </v-col>

@@ -72,14 +72,14 @@
                             </v-btn>
                             
                       </template>
-                        <template v-slot:no-data>
+                        <!-- <template v-slot:no-data>
                           <v-btn
                             color="primary"
                             @click="update_options"
                           >
                             Reset
                           </v-btn>
-                        </template>
+                        </template> -->
                       </v-data-table>
                 </v-col>
             </v-row>
