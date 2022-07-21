@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import HintOverlay from "../components/Node/HintOverlay.vue";
+import HintOverlay from "./Node/HintOverlay.vue";
 import { Editor } from "@baklavajs/core";
 import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
 import { OptionPlugin } from "@baklavajs/plugin-options-vue";
 import { Engine } from "@baklavajs/plugin-engine";
-import { MathNode } from "../components/Node/MathNode"
-import { DisplayNode } from "../components/Node/DisplayNode";
-import { ExecNode } from "../components/Node/ExecNode"
+import { MathNode } from "./Node/MathNode"
+import { DisplayNode } from "./Node/DisplayNode";
+import { ExecNode } from "./Node/ExecNode"
 
 
 export default {

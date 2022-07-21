@@ -26,3 +26,5 @@ export class MathNode extends Node {
         this.getInterface("Result").value = result;
     }
 }
+
+export default MathNode

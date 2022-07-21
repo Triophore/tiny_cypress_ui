@@ -31,9 +31,17 @@ export default {
 
         var graph = new LS.LGraph();
 
+    
+        
         var canvas = new LS.LGraphCanvas("#mycanvas", graph);
+
+        console.log(canvas)
+
+
+
+        
       
-        graph.start()
+        //graph.start()
         // var node_const = LS.LiteGraph.createNode("basic/const");
         // node_const.pos = [200,200];
         // graph.add(node_const);
