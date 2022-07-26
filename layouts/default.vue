@@ -284,7 +284,7 @@ export default {
                         {
                             text: "SMS",
                             to: "/settings/sms",
-                            icon: "mdi-android-messages"
+                            icon: "mdi-message-processing"
                         },
                         {
                             text: "Email",
