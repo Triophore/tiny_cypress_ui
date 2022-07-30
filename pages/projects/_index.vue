@@ -22,6 +22,9 @@
                     <strong v-if="project_before == null">Status : Not started</strong>
                     <strong v-else>Status : Started</strong>
             <v-spacer></v-spacer>
+            <v-btn text @click="save_project" style="margin-top:30px; margin-bottom:20px;"><v-icon>mdi-content-save</v-icon>Save</v-btn>
+             <v-btn text @click="add_step" style="margin-top:30px; margin-bottom:20px;"><v-icon>mdi-content-save-cog</v-icon>Save and Run</v-btn>
+            <v-spacer></v-spacer>
             <v-select label="Select Run">
 
             </v-select>
@@ -40,10 +43,10 @@
 
           <div v-if="project"> 
             <div v-if="project.project_type == 'Cypress'">
-              <Cypress :project="project" />
+              <Cypress  :project="project" />
             </div>
             <div v-if="project.project_type == 'Puppet'">
-              <Puppet :project="project" />
+              <Puppet ref="project_pup" :project="project" />
             </div>
           </div>
     </v-col>
@@ -79,6 +82,17 @@ export default {
     Cypress
 },
   methods: {
+    save_project(){
+      if(!this.project.project_type) return;
+      if(this.project.project_type == "Puppet"){
+        var get_project_data = this.$refs.project_pup.getProjectData()
+        console.log(get_project_data)
+      }
+
+    },
+    save_project_run(){
+      
+    },
     bytesToSize(bytes) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return '0 Byte';
@@ -109,53 +123,53 @@ export default {
       }
     } 
   },
-  // sockets: {
-  //       connect: function () {
-  //           console.log('socket connected')
-  //       },
-  //       update_agent: async function (data) {
-  //           this.agents = [];
-  //          if(this.project.project_id == data.project_id){
-  //           var agent_name = await this.$axios.get("/api/agents/getbynumber/"+data.agent_name);
-  //           data.agent_name_string = agent_name.data.name;
-  //            this.agents.push(data) 
-  //          }
-  //           console.log("connected")
-  //           console.log(data)
-  //       },
-  //       agent_disconnected: function (data) {
-  //          //console.log("DISCONNECTED",data)
-  //          var temp = this.agents.filter(function(item){
-  //             return item.agent_name == data.agent_name
-  //          })
-  //          var id = this.agents.indexOf(temp[0])
-  //          if(id > -1){
-  //             this.agents.splice(id,1)
-  //          }
-  //       },
-  //       agent_connected: function (data) {
-  //          console.log("CONNECTED",data) 
-  //          this.$socket.emit('get_all_agents', this.project);
-  //       },
-  //       ui_before_run:function(data){
-  //         console.log("before run",data)
-  //         this.project_before = data
-  //         for(var i = 0 ; i < data.specs.length ; i++){
-  //            this.$refs.specs.putSpec(data.specs[i])
-  //         }
-  //       },
-  //       ui_before_spec: function (data) {
-  //          console.log("ui_before_spec",data) 
-  //         //this.$socket.emit('get_all_agents', this.project);
-  //          this.$refs.specs.startSpec(data) //stopSpec
-  //       },
-  //       ui_after_spec: function (data) {
-  //          console.log("ui_after_spec",data) 
-  //          //this.$socket.emit('get_all_agents', this.project);
-  //          this.$refs.specs.stopSpec(data)
-  //       },
+  sockets: {
+        connect: function () {
+            console.log('socket connected from main page')
+        },
+        // update_agent: async function (data) {
+        //     this.agents = [];
+        //    if(this.project.project_id == data.project_id){
+        //     var agent_name = await this.$axios.get("/api/agents/getbynumber/"+data.agent_name);
+        //     data.agent_name_string = agent_name.data.name;
+        //      this.agents.push(data) 
+        //    }
+        //     console.log("connected")
+        //     console.log(data)
+        // },
+        // agent_disconnected: function (data) {
+        //    //console.log("DISCONNECTED",data)
+        //    var temp = this.agents.filter(function(item){
+        //       return item.agent_name == data.agent_name
+        //    })
+        //    var id = this.agents.indexOf(temp[0])
+        //    if(id > -1){
+        //       this.agents.splice(id,1)
+        //    }
+        // },
+        // agent_connected: function (data) {
+        //    console.log("CONNECTED",data) 
+        //    this.$socket.emit('get_all_agents', this.project);
+        // },
+        // ui_before_run:function(data){
+        //   console.log("before run",data)
+        //   this.project_before = data
+        //   for(var i = 0 ; i < data.specs.length ; i++){
+        //      this.$refs.specs.putSpec(data.specs[i])
+        //   }
+        // },
+        // ui_before_spec: function (data) {
+        //    console.log("ui_before_spec",data) 
+        //   //this.$socket.emit('get_all_agents', this.project);
+        //    this.$refs.specs.startSpec(data) //stopSpec
+        // },
+        // ui_after_spec: function (data) {
+        //    console.log("ui_after_spec",data) 
+        //    //this.$socket.emit('get_all_agents', this.project);
+        //    this.$refs.specs.stopSpec(data)
+        // },
 
-  // },
+  },
   async mounted() {
     try {
       var project_id = this.slug;
