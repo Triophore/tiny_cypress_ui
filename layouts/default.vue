@@ -8,7 +8,7 @@
       app
       class="no-print"
     >
-      
+
 
  <v-list nav dense>
        <div v-for="(link, i) in links" :key="i">
@@ -27,7 +27,7 @@
 
             <v-list-item-title v-text="link.text" />
         </v-list-item>
-<!-- 
+<!--
    <v-list-group
             v-else
             :key="link.text"
@@ -43,7 +43,7 @@
             no-action
             :prepend-icon="link.icon"
             :value="false"
-           
+
         >
             <template v-slot:activator>
               <v-list-item-title>{{ link.text }}</v-list-item-title>
@@ -77,7 +77,7 @@
         class="no-print"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-     
+
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <ThemeChanger/>
@@ -219,24 +219,24 @@ export default {
                 //         },
                 //     ]
                 // },
-                {
-                    icon: "mdi-file-chart",
-                    text: "Report",
-                    to: "/report"
-                    /*
-                    subLinks : [
-                        {
-                            text : 'View Applications',
-                            to    : '/apps',
-                            icon  : 'mdi-view-list'
-                        },
-                        {
-                            text : 'New Application',
-                            to    : '/apps',
-                            icon  : 'mdi-plus'
-                        },
-                    ]*/
-                },
+                // {
+                //     icon: "mdi-file-chart",
+                //     text: "Report",
+                //     to: "/report"
+                //     /*
+                //     subLinks : [
+                //         {
+                //             text : 'View Applications',
+                //             to    : '/apps',
+                //             icon  : 'mdi-view-list'
+                //         },
+                //         {
+                //             text : 'New Application',
+                //             to    : '/apps',
+                //             icon  : 'mdi-plus'
+                //         },
+                //     ]*/
+                // },
                 {
                     icon: "mdi-cogs",
                     text: "Settings",

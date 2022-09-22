@@ -32,6 +32,7 @@ export default {
     { src: '~/plugins/vue_toastifictaion.js', ssr: false },
     { src: '~/plugins/vue_date_time.js', ssr: false },
     { src: '~/plugins/vue_socket_io.js', ssr: false },
+    { src: "~/plugins/apex.js" , ssr:false }
     //{ src: '~/plugins/vue_baklava.js', ssr: false }
     //{ src: '~/plugins/vue_highlighter.js', ssr: false },
   ],
@@ -58,7 +59,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl : 'http://localhost:4500'
+    baseUrl : 'http://192.168.1.56:4500'
   },
 
 
@@ -81,7 +82,7 @@ export default {
       home: '/'
     },
     watchLoggedIn:true,
-    
+
   },
 
   router: {
